@@ -20,12 +20,12 @@ Transparent 1x1 GIF pixel
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 ```
 
-## serve dat pixel
+## serve pixel
 
 Normally, you want to set up this pixel to get fetched by including it in your ad or site etc that you want to get more information.
 We're going to serve it directly and focus on what we can grab from that simple GET for client fingerprinting.
 
-## sniff dat traffic
+## sniff traffic
 
 This is how we grab the raw data about the connection, like tls client-hello and other identifying parameters of the TCP packet.
 The idea is to use this traffic as a slightly better signal than stuff like IP and HTTP headers, because they are much easier to spoof.
