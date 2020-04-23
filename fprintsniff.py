@@ -3,66 +3,52 @@
 import argparse
 
 from scapy.all import *
-from scapy.layers.l2 import ARP, Ether
+from scapy.layers.tls.record import TLS
+from scapy.layers.tls.handshake import TLSClientHello
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-i', '--interface', type=str, dest='interface', default='eth0',
                     help='interface to use')
-parser.add_argument('-g', '--gateway', type=str, dest='gateway', help='gateway address')
-parser.add_argument('-t', '--target', type=str, dest='target', help='interface to use')
 parser.add_argument('-c', '--count', type=int, dest='count', default=1000,
                     help='number of packets to send, 0 means send forever')
-parser.add_argument('-f', '--filename', type=str, dest='filename', default='arper.pcap', help='filename to save pcap')
+parser.add_argument('-f', '--filename', type=str, dest='filename', default=f'{sys.argv[0]}.pcap',
+                    help='filename to save pcap')
 
 parser.description = """\
-This is a Python program to perform an arp cache poisoning attack, 
-and then intercept traffic as MITM (Man In The Middle).
+This is a Python program to sniff TLS client hello messages for passive os fingerprinting.
 """
 args = parser.parse_args()
 
 
-
-def main():
-    print(f'Setting up to sniff on interface: {args.interface}')
-
-    # gather real mac addresses via ARP
-    print(f'Getting MAC addr for gateway: {args.gateway}')
-    gateway_mac = get_mac(args.gateway)
-    if gateway_mac is None:
-        print(f'Failed to get MAC addr for gateway: {args.gateway}')
-        sys.exit(1)
-    else:
-        print(f'Gateway: {args.gateway} is at: {gateway_mac}')
-
-    print(f'Getting MAC addr for target: {args.target}')
-    target_mac = get_mac(args.target)
-    if target_mac is None:
-        print(f'Failed to get MAC addr for target: {args.target}')
-        sys.exit(1)
-    else:
-        print(f'Target: {args.target} is at: {target_mac}')
-
-    # spawn thread to run poison part of attack (send malicious gratuitous ARP to poison ARP cache with OUR mac)
-    poison_thread = threading.Thread(target=poison_target, args=(args.gateway, gateway_mac, args.target, target_mac),
-                                     daemon=True)
-    poison_thread.start()
-
+def write_pcap():
     try:
         print(f'Starting sniffer for {args.count} packets')
 
-        bpf_filter = f'ip host {args.target}'
-        packets = sniff(filter=bpf_filter, count=args.count, iface=args.interface)
+        packets = sniff(iface=args.interface,
+                        count=args.count,
+                        prn=lambda x: x.summary(),
+                        # just 'client hello'
+                        lfilter=lambda x: scapy.layers.tls.handshake.TLSClientHello in x)
+                        # TLS only, but _all_ tls
+                        # lfilter=lambda x: TLS in x)
 
         # write out a pcap
         wrpcap(args.filename, packets)
 
-        # restore the network
-        restore_target(args.gateway, gateway_mac, args.target, target_mac)
-        print(f'Completed attack on:  {args.target} results stored in: {args.filename}')
-
     except KeyboardInterrupt:
-        restore_target(args.gateway, gateway_mac, args.target, target_mac)
         sys.exit(0)
+
+
+def read_pcap():
+    # this will be all:
+    # scapy.layers.tls.handshake.TLSClientHello
+    # mostly this should extract fields we care about and turn the data from each packet into a 'fingerprint'
+    pass
+
+
+def main():
+    write_pcap()
+    read_pcap()
 
 
 if __name__ == '__main__':
