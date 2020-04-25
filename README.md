@@ -6,10 +6,12 @@ The name is the basic idea. A connection is made, this program grabs the fingerp
 
 ## install
 clone this repo
-`git submodule update --init --recursive`
+```
+git submodule update --init --recursive
 python3 -m venv --copies venv
 . ./venv/bin/activate
 pip install scapy dpkt
+```
 run the tool
 
 ### serve a pixel to sniff
