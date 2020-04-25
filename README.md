@@ -4,6 +4,14 @@ This is a way to serve a 1x1 pixel and sniff traffic to grab the client-hello of
 
 The name is the basic idea. You fetch a *pixel*, this program *print*s some info you that was sent during the request.
 
+## install
+clone this repo
+`git submodule update --init --recursive`
+python3 -m venv --copies venv
+. ./venv/bin/activate
+pip install scapy dpkt
+run the tool
+
 ## get a pixel
 
 http://png-pixel.com/
