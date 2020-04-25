@@ -1,8 +1,8 @@
-# pixelprint
+# fprintsniff
 
-This is a way to serve a 1x1 pixel and sniff traffic to grab the client-hello of a tls handshake, and other passive OS detection information.
+This is a way grab tls fingerpint info (ja3/ja3s) from TLS straffic.
 
-The name is the basic idea. You fetch a *pixel*, this program *print*s some info you that was sent during the request.
+The name is the basic idea. A connection is made, this program grabs the fingerprint from the sniffed data
 
 ## install
 clone this repo
@@ -12,7 +12,7 @@ python3 -m venv --copies venv
 pip install scapy dpkt
 run the tool
 
-## get a pixel
+### serve a pixel to sniff
 
 http://png-pixel.com/
 
@@ -28,17 +28,14 @@ Transparent 1x1 GIF pixel
 <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
 ```
 
-## serve pixel
-
 Normally, you want to set up this pixel to get fetched by including it in your ad or site etc that you want to get more information.
 We're going to serve it directly and focus on what we can grab from that simple GET for client fingerprinting.
 
 ## sniff traffic
 
-This is how we grab the raw data about the connection, like tls client-hello and other identifying parameters of the TCP packet.
-The idea is to use this traffic as a slightly better signal than stuff like IP and HTTP headers, because they are much easier to spoof.
+This is how we grab the raw data about the connection.
 
-## turn traffic into a fingerprint
+### turn traffic into a fingerprint
 
 The next step is to identify and strip out the attributes we want from the packets we captured, and turn that data into a fingerprint.
 
@@ -58,6 +55,10 @@ An example might look like:
 "SSL-Version": 0x0301 (TLS 1.0)
 "Extensions": 0x0301 0x0000,0x000a,0x000b,0x0023,0x3374
 ```
+
+### fingerprints are really made of
+
+ja3 and ja3s already exist and do this, so I just used those. Thanks! :D
 
 #### capture example using tls filters
 
