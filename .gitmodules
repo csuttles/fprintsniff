@@ -1,0 +1,3 @@
+[submodule "ja3"]
+	path = ja3
+	url = https://github.com/salesforce/ja3.git
