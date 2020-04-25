@@ -57,9 +57,9 @@ def get_ja3(ja3s=False):
     cmd = ''
     res = []
     if ja3s:
-        cmd = f'./ja3/python/ja3s.py --json {args.filename}'
+        cmd = f'python3 ./ja3/python/ja3s.py --json {args.filename}'
     else:
-        cmd = f'./ja3/python/ja3.py --json {args.filename}'
+        cmd = f'python3 ./ja3/python/ja3.py --json {args.filename}'
     res = subprocess.run(shlex.split(cmd), check=True, stdout=subprocess.PIPE)
     if res.returncode == 0:
         return(res.stdout)
