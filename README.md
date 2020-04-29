@@ -62,10 +62,6 @@ An example might look like:
 "Extensions": 0x0301 0x0000,0x000a,0x000b,0x0023,0x3374
 ```
 
-### fingerprints are really made of
-
-[ja3 and ja3s already exist and do this, so I just used those. Thanks! :D](https://github.com/salesforce/ja3)
-
 #### capture example using tls filters
 
 The linked example filters are for older versions of wireshark/tshark; here's an example that will work with newer versions (tls dissector not ssl).
@@ -74,3 +70,7 @@ The linked example filters are for older versions of wireshark/tshark; here's an
 kali@jabroni:[~/src/pixelprint]:(master *+)
 [Exit: 0] 13:30: sudo tshark -i en0 -nn -T fields -e ip.src -e tls.handshake.ciphersuite -e tls.handshake.version -e tls.handshake.extension.type -e tls.handshake.extensions_server_name -Y "tls.handshake"
 ```
+
+### fingerprints are really made of
+
+[ja3 and ja3s already exist and do this, so I just used those. Thanks! :D](https://github.com/salesforce/ja3)
