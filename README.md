@@ -60,7 +60,7 @@ An example might look like:
 
 ### fingerprints are really made of
 
-ja3 and ja3s already exist and do this, so I just used those. Thanks! :D
+[ja3 and ja3s already exist and do this, so I just used those. Thanks! :D](https://github.com/salesforce/ja3)
 
 #### capture example using tls filters
 
