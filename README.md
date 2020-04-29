@@ -14,7 +14,9 @@ pip install scapy dpkt
 ```
 run the tool
 
-### serve a pixel to sniff
+### serve traffic to sniff
+
+Maybe just a pixel?
 
 http://png-pixel.com/
 
@@ -32,6 +34,8 @@ Transparent 1x1 GIF pixel
 
 Normally, you want to set up this pixel to get fetched by including it in your ad or site etc that you want to get more information.
 We're going to serve it directly and focus on what we can grab from that simple GET for client fingerprinting.
+
+You could also just run this in parallel with whatever serves traffic you are interested in (aka run it where your webserver or load balancer lives)
 
 ## sniff traffic
 
