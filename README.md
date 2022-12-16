@@ -67,7 +67,7 @@ An example might look like:
 The linked example filters are for older versions of wireshark/tshark; here's an example that will work with newer versions (tls dissector not ssl).
 
 ```
-kali@jabroni:[~/src/pixelprint]:(master *+)
+kali@kali:[~/src/pixelprint]:(master *+)
 [Exit: 0] 13:30: sudo tshark -i en0 -nn -T fields -e ip.src -e tls.handshake.ciphersuite -e tls.handshake.version -e tls.handshake.extension.type -e tls.handshake.extensions_server_name -Y "tls.handshake"
 ```
 
